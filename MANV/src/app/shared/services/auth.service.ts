@@ -3,6 +3,7 @@ import {
   authentication,
   AuthenticationData,
   createDirectus,
+  rest,
 } from '@directus/sdk';
 import { environment } from 'src/environments/environment';
 
@@ -11,18 +12,23 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
   baseUrl = environment.baseApiUrl;
-  client = createDirectus(this.baseUrl).with(authentication());
+  client = createDirectus(this.baseUrl)
+    .with(authentication('json'))
+    .with(rest());
   constructor() {}
 
-  public login(user: string, password: string): Promise<AuthenticationData> {
+  public async login(
+    user: string,
+    password: string
+  ): Promise<AuthenticationData> {
     return this.client.login(user, password);
   }
 
-  public logout(): Promise<void> {
-    return this.client.logout();
+  public async logout(): Promise<void> {
+    return await this.client.logout();
   }
 
-  public refresh(): Promise<AuthenticationData> {
-    return this.client.refresh();
+  public async refresh(): Promise<AuthenticationData> {
+    return await this.client.refresh();
   }
 }

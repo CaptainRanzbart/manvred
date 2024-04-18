@@ -13,14 +13,15 @@ export class LoginPage implements OnInit {
     private loadingController: LoadingController
   ) {}
 
-  userName: string = '';
-  password: string = '';
+  userName: string = 'admin@example.com';
+  password: string = 'password';
+
   ngOnInit() {}
   async login() {
     // Display loading indicator while Auth Connect login window is open
     const loadingIndicator = await this.showLoadingIndictator();
     try {
-      this.authService.login(this.userName, this.password);
+      await this.authService.login(this.userName, this.password);
     } catch (e: any) {
       console.error(e.message);
     } finally {
