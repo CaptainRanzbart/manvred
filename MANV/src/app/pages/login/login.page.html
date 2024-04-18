@@ -4,14 +4,14 @@
       <ion-row>
         <ion-col size-md="3" size="12" class="ion-padding ion-blue-bkg">
           <img
-            src="https://images.prismic.io/ionicframeworkcom/ac68e1d9-9887-4e5a-9820-9290d06638de_ionic+logo+white+on+blue.png"
-            alt="Ionic logo"
+            src="../../../assets/icon.png"
+            alt="MANVRED logo"
             loading="lazy"
           />
         </ion-col>
         <ion-col size-md="9" size="12" class="welcome">
           <ion-card-header>
-            <ion-card-title> Willkommen bei MANV RED </ion-card-title>
+            <ion-card-title> Willkommen bei <br />MANV RED </ion-card-title>
           </ion-card-header>
 
           <ion-card-content>
@@ -23,6 +23,7 @@
             <ion-input
               label="Passwort"
               labelPlacement="stacked"
+              type="password"
               [(ngModel)]="password"
             ></ion-input>
             <ion-button (click)="login()" shape="round" color="primary">
