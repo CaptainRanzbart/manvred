@@ -28,6 +28,9 @@ export class LoginPage implements OnInit {
       loadingIndicator.dismiss();
     }
   }
+  async test() {
+    this.authService.refresh();
+  }
   private async showLoadingIndictator() {
     const loadingIndicator = await this.loadingController.create({
       message: 'Opening login window...',

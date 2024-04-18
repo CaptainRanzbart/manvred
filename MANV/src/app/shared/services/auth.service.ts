@@ -12,9 +12,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
   baseUrl = environment.baseApiUrl;
-  client = createDirectus(this.baseUrl)
-    .with(authentication('json'))
-    .with(rest());
+  client = createDirectus(this.baseUrl).with(authentication('json'));
   constructor() {}
 
   public async login(
