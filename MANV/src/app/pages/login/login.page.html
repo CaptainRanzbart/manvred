@@ -15,8 +15,16 @@
           </ion-card-header>
 
           <ion-card-content>
-            <ion-input label="User" labelPlacement="stacked"></ion-input>
-            <ion-input label="Passwort" labelPlacement="stacked"></ion-input>
+            <ion-input
+              label="User"
+              labelPlacement="stacked"
+              [(ngModel)]="userName"
+            ></ion-input>
+            <ion-input
+              label="Passwort"
+              labelPlacement="stacked"
+              [(ngModel)]="password"
+            ></ion-input>
             <ion-button (click)="login()" shape="round" color="primary">
               Sign in
             </ion-button>

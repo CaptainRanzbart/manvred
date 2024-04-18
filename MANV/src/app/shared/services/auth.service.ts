@@ -31,4 +31,7 @@ export class AuthService {
   public async refresh(): Promise<AuthenticationData> {
     return await this.client.refresh();
   }
+  public async isAuthenticated(): Promise<any> {
+    return false;
+  }
 }

@@ -13,8 +13,8 @@ export class LoginPage implements OnInit {
     private loadingController: LoadingController
   ) {}
 
-  userName: string = 'admin@example.com';
-  password: string = 'password';
+  userName: string = '';
+  password: string = '';
 
   ngOnInit() {}
   async login() {
