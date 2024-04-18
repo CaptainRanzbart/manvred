@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseApiUrl: 'http://directus.example.com',
+  baseApiUrl: 'http://localhost:8055/',
 };
 
 /*
