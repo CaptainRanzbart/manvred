@@ -21,15 +21,12 @@ export class LoginPage implements OnInit {
     // Display loading indicator while Auth Connect login window is open
     const loadingIndicator = await this.showLoadingIndictator();
     try {
-      await this.authService.login(this.userName, this.password);
+      var res = await this.authService.login(this.userName, this.password);
     } catch (e: any) {
       console.error(e.message);
     } finally {
       loadingIndicator.dismiss();
     }
-  }
-  async test() {
-    this.authService.refresh();
   }
   private async showLoadingIndictator() {
     const loadingIndicator = await this.loadingController.create({

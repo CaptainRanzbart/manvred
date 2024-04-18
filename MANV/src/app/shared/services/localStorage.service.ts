@@ -5,11 +5,13 @@ import { Injectable } from '@angular/core';
 })
 export class localStorageService {
   constructor() {}
-  public set(obj: any, key: string) {
-    localStorage.setItem(key, JSON.stringify(obj));
+  public async set(obj: any, key: string): Promise<void> {
+    console.log('Saving to Local Storage');
+    await localStorage.setItem(key, JSON.stringify(obj));
   }
-  public get(key: string): any {
-    var res: string = localStorage.getItem(key) || '{}';
+  public async get(key: string): Promise<any> {
+    console.log('Retrieving from local Storage');
+    var res: string = (await localStorage.getItem(key)) || '{}';
     return JSON.parse(res);
   }
 }
