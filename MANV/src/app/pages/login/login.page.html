@@ -8,14 +8,14 @@
         <ion-label>Melde dich bei MANV RED an</ion-label>
       </ion-row>
       <ion-row>
-        <ion-input label="E-Mail" label-placement="stacked" fill="outline" placeholder="Enter E-Mail"></ion-input>
+        <ion-input label="E-Mail" label-placement="stacked" fill="outline" placeholder="Enter E-Mail" [(ngModel)]="userName" ></ion-input>
       </ion-row>
       <ion-row>
-        <ion-input label="Password" type="password" label-placement="stacked" fill="outline" placeholder="Enter Password">
+        <ion-input label="Password" type="password" label-placement="stacked" fill="outline" placeholder="Enter Password" [(ngModel)]="password">
           <ion-input-password-toggle slot="end"></ion-input-password-toggle>
         </ion-input>
       </ion-row>
-        <ion-button color="danger" expand="block">Login        
+        <ion-button color="danger" expand="block" (click)="login()">Login
           <ion-icon name="person-circle-outline" style="margin-left: 5px;"></ion-icon>
         </ion-button>
     </ion-grid>

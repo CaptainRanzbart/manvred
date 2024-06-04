@@ -30,7 +30,7 @@ export class LoginPage implements OnInit {
   }
   private async showLoadingIndictator() {
     const loadingIndicator = await this.loadingController.create({
-      message: 'Loging In...',
+      message: 'Logging In...',
     });
     await loadingIndicator.present();
     return loadingIndicator;
