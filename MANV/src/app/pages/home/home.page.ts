@@ -52,6 +52,7 @@ export class HomePage implements OnInit {
       this.names = JSON.parse(storedNames);
     }
   }
+  
  
 
  

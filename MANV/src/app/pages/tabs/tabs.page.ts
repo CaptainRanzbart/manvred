@@ -12,4 +12,18 @@ export class TabsPage {
     console.log('Logging Out ...');
     await this.authServ.logout();
   }
+  public alertButtons = [
+    {
+      text: 'Nein',
+      cssClass: 'alert-button-cancel',
+    },
+    {
+      text: 'Ja',
+      cssClass: 'alert-button-confirm',
+      handler: async () => {
+        console.log('Logging Out ...');
+        await this.authServ.logout();
+      }
+    },
+];
 }
