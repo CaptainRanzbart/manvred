@@ -10,9 +10,11 @@
       <ion-label>Untersuchungen</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button (click)="logout()">
+    <ion-tab-button id="ausloggen">
       <ion-icon aria-hidden="true" name="log-out"></ion-icon>
       <ion-label>logout</ion-label>
     </ion-tab-button>
+    <ion-alert trigger="ausloggen" header="Wollen Sie sich wirklich ausloggen?" [buttons]="alertButtons"></ion-alert>
+
   </ion-tab-bar>
 </ion-tabs>
