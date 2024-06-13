@@ -46,14 +46,9 @@ export class AuthService {
   }
 
   public async logout(): Promise<void> {
-    //Get Token from localStorage if not loaded
-    if (this.tokenStack.access_token == null) {
-      await this.getStack();
-    }
-    //Logout with Refreshtoken
-    return await this.client.request(
-      logout(this.tokenStack.refresh_token || '')
-    );
+    //Remove Stored Token Stack and Refresh Application
+    await this.lsServ.remove('token_stack');
+    this.navCtrl.navigateRoot('/login');
   }
 
   public async refresh(): Promise<AuthenticationData> {
