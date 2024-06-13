@@ -14,4 +14,9 @@ export class localStorageService {
     var res: string = (await localStorage.getItem(key)) || '{}';
     return JSON.parse(res);
   }
+  public async remove(key: string): Promise<any> {
+    console.log('Removing from local Storage');
+    await localStorage.removeItem(key);
+    return true;
+  }
 }
