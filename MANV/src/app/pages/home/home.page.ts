@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonModal } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
+import { Device } from 'src/app/shared/models/Device';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
 
@@ -17,6 +18,11 @@ export class HomePage implements OnInit {
   names: string[] = [];
 
   constructor(private apiServ: ApiService) {}
+  async test() {
+    var res = await this.apiServ.getExaminations();
+    console.log('Testing ...');
+    console.table(res);
+  }
 
   cancel() {
     this.modal.dismiss(null, 'cancel');
