@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
+import { AuthenticationStorage } from '@directus/sdk';
 
 @Injectable({
   providedIn: 'root',
 })
-export class localStorageService {
+export class localStorageService implements AuthenticationStorage {
   constructor() {}
-  public async set(obj: any, key: string): Promise<void> {
-    console.log('Saving to Local Storage');
-    await localStorage.setItem(key, JSON.stringify(obj));
-  }
-  public async get(key: string): Promise<any> {
-    console.log('Retrieving from local Storage');
-    var res: string = (await localStorage.getItem(key)) || '{}';
+  async get() {
+    var res: string = (await localStorage.getItem('directus-data')) || '{}';
     return JSON.parse(res);
+  }
+
+  async set(data: any): Promise<void> {
+    await localStorage.setItem('directus-data', JSON.stringify(data));
   }
   public async remove(key: string): Promise<any> {
     console.log('Removing from local Storage');
