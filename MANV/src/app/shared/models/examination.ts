@@ -6,7 +6,7 @@ export type Examination = {
   Device?: string | Device | null;
   Doctor?: string | null;
   ExaminationResult?: string | ExaminationResult | null;
-  id: number;
+  id: string;
   Patient?: string | Patient | null;
   StartTime?: Date | null;
 };

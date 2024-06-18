@@ -4,6 +4,7 @@ import { OverlayEventDetail } from '@ionic/core/components';
 import { Device } from 'src/app/shared/models/Device';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { ExaminationService } from 'src/app/shared/services/examination.service';
 
 @Component({
   selector: 'app-home',
@@ -17,12 +18,7 @@ export class HomePage implements OnInit {
   name: string = '';
   names: string[] = [];
 
-  constructor(private apiServ: ApiService) {}
-  async test() {
-    var res = await this.apiServ.getExaminations();
-    console.log('Testing ...');
-    console.table(res);
-  }
+  constructor() {}
 
   cancel() {
     this.modal.dismiss(null, 'cancel');

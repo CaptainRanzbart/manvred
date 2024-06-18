@@ -1,9 +1,8 @@
-import { SymptomDevice } from "./SymptomDevice";
-
+import { SymptomDevice } from './SymptomDevice';
 
 export type Symptom = {
-    Description?: string | null;
-    Device: any[] | SymptomDevice[];
-    id: number;
-    Name?: string | null;
+  Description?: string | null;
+  Device: any[] | SymptomDevice[];
+  id: string;
+  Name?: string | null;
 };
