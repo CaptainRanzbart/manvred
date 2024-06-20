@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonModal } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
-
+import { Device } from 'src/app/shared/models/Device';
+import { ApiService } from 'src/app/shared/services/api.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
+import { ExaminationService } from 'src/app/shared/services/examination.service';
 
 @Component({
   selector: 'app-home',
@@ -15,6 +18,8 @@ export class HomePage implements OnInit {
   name: string = '';
   names: string[] = [];
 
+  constructor() {}
+
   cancel() {
     this.modal.dismiss(null, 'cancel');
   }
@@ -26,10 +31,9 @@ export class HomePage implements OnInit {
   onWillDismiss(event: Event) {
     const ev = event as CustomEvent<OverlayEventDetail<string>>;
     if (ev.detail.role === 'confirm') {
-     
       this.names.push(ev.detail.data!);
       this.message = `Untersuchungen: `;
-      this.name='';
+      this.name = '';
       this.saveNames();
     }
   }
@@ -38,9 +42,7 @@ export class HomePage implements OnInit {
     this.saveNames();
   }
 
-  constructor() {}
-
-  ngOnInit() { 
+  ngOnInit() {
     this.loadNames();
   }
   saveNames() {
@@ -52,8 +54,4 @@ export class HomePage implements OnInit {
       this.names = JSON.parse(storedNames);
     }
   }
-  
- 
-
- 
 }
