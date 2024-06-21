@@ -31,7 +31,7 @@ export class ExaminationService {
           (s) => s.id == result.Symptom?.id
         ) || { id: '', Device: [] };
         if (
-          symptom.Device.filter((x: SymptomDevice) => x.Device_id == device.id)
+          symptom.Device.filter((x: SymptomDevice) => x.Device_id == device)
             .length != 0
         ) {
           examResult = result;
