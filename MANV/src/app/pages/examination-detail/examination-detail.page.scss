@@ -1,0 +1,101 @@
+ion-title {
+    color: white;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 20px;
+  }
+  
+  .patient-details, .device-details, .duration-details, .result-details {
+    border: 2px solid gray;
+    border-radius: 15px;
+    padding: 20px;
+    margin: 20px;
+    color: white;
+    background-color: black;
+    text-align: left;
+    width: 90%;
+    max-width: 500px;
+  }
+  
+  .patient-field, .device-field, .duration-field, .result-field {
+    padding-left: 10px;
+  }
+  
+  .property {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .patient-details h2, .device-details h2, .duration-details h2, .result-details h2 {
+    color: red;
+    margin: 0;
+    padding-bottom: 10px;
+    padding-left: 10px;
+  }
+  
+  .property strong, .property span {
+    color: white;
+    margin: 5px 0;
+  }
+  
+  ion-content {
+    --background: black;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto;
+  }
+  
+  .title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-left: 10px;
+  }
+  
+  ion-toolbar, ion-tab-bar {
+    --background: #000000;
+    --ion-color-base: #ffffff;
+  }
+  
+  .custom-background {
+    --background: #000000;
+  }
+  
+  .custom-text {
+    font-size: 1rem;
+  }
+  
+  ion-button {
+    --background: #ff0000;
+    --color: #ffffff;
+  }
+  
+  ion-icon {
+    color: #ffffff;
+  }
+  
+  ion-label {
+    color: #ffffff;
+  }
+  
+  .rounded {
+    border-radius: 12px;
+  }
+  
+  .header-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .header-icon {
+    height: 64px;
+    width: 64px;
+    margin-top: 25px; /* Verschiebt das Icon um 25 Pixel nach unten */
+    margin-left: 25px; /* Verschiebt das Icon um 25 Pixel nach rechts */
+  }
+  
