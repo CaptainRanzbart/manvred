@@ -4,5 +4,5 @@ export type Device = {
   Duration?: number | null;
   id: string;
   Name?: string | null;
-  Room?: string | Room | null;
+  Room?: Room | null;
 };

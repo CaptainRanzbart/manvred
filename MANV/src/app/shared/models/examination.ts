@@ -3,10 +3,10 @@ import { ExaminationResult } from './ExaminationResult';
 import { Patient } from './Patient';
 
 export type Examination = {
-  Device?: string | Device | null;
+  Device?: Device | null;
   Doctor?: string | null;
-  ExaminationResult?: string | ExaminationResult | null;
+  ExaminationResult?: ExaminationResult | null;
   id: string;
-  Patient?: string | Patient | null;
+  Patient?: Patient | null;
   StartTime?: Date | null;
 };
