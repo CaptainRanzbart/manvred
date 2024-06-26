@@ -4,6 +4,7 @@ import {
   createItem,
   DirectusClient,
   DirectusUser,
+  readItem,
   readItems,
   readMe,
   rest,
@@ -46,12 +47,16 @@ export class ApiService {
   async getSymptoms(): Promise<Symptom[] | any> {
     return await this.getObjects('Symptom');
   }
+  async getExaminationResult(id: string): Promise<ExaminationResult[] | any> {
+    return await this.getObject('ExaminationResult', id);
+  }
   async getExaminationResults(): Promise<ExaminationResult[] | any> {
     return await this.getObjects('ExaminationResult');
   }
   async getDevices(): Promise<Device[] | any> {
     return await this.getObjects('Device');
   }
+
   private async getObjects(key: string) {
     var token = (await this.directusService.getToken()) || '';
     return this.restClient.request(
@@ -63,6 +68,19 @@ export class ApiService {
       )
     );
   }
+
+  private async getObject(key: string, id: string) {
+    var token = (await this.directusService.getToken()) || '';
+    return this.restClient.request(
+      withToken(
+        token,
+        readItem(key, id,{
+          fields: ['*.*'],
+        })
+      )
+    );
+  }
+
   async getCurrentUser(): Promise<DirectusUser<any> | any | null> {
     var token = (await this.directusService.getToken()) || '';
     return this.restClient.request(withToken(token, readMe()));

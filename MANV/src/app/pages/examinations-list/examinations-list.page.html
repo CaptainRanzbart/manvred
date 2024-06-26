@@ -1,22 +1,17 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title class="title">Examinations List</ion-title>
+    <ion-title>Untersuchungen</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content class="ion-padding custom-background">
-  <ion-list-header color="danger">
-    <ion-label>Aktuelle Untersuchungen:</ion-label>
-  </ion-list-header>
-  <ion-list>
-    <div *ngIf="examinations.length === 0">
-      <p>Keine aktuellen Untersuchungen</p>
-    </div>
-    <ion-item *ngFor="let examination of examinations; let i = index">
-      {{ examination.Device?.Name }}, {{ examination.Patient?.Name }}, {{
-      examination.StartTime | date}}
 
-      <!-- Wenn Untersuchung zu einem Ergebniss geführt hat -->
-      {{ examination.ExaminationResult != null }}
-    </ion-item>
-  </ion-list>
+<ion-content class="ion-padding ion-center">
+  <ion-grid class="max-width-container">
+    <div class="examination-list">
+      <app-examination></app-examination>
+      <app-examination></app-examination>
+      <app-examination></app-examination>
+    </div>
+  </ion-grid>
+
+
 </ion-content>

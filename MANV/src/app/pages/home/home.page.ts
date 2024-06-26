@@ -14,7 +14,6 @@ import { ExaminationService } from 'src/app/shared/services/examination.service'
 export class HomePage implements OnInit {
   @ViewChild(IonModal, { static: true }) modal!: IonModal;
 
-  message = 'Untersuchung:';
   name: string = '';
   names: string[] = [];
 
@@ -32,7 +31,6 @@ export class HomePage implements OnInit {
     const ev = event as CustomEvent<OverlayEventDetail<string>>;
     if (ev.detail.role === 'confirm') {
       this.names.push(ev.detail.data!);
-      this.message = `Untersuchungen: `;
       this.name = '';
       this.saveNames();
     }

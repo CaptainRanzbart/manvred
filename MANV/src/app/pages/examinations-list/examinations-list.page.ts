@@ -1,7 +1,7 @@
-import { Component, ViewChild } from '@angular/core';
-import { IonModal } from '@ionic/angular';
+import { Component, ViewChild, inject } from '@angular/core';
 import { Examination } from 'src/app/shared/models/Examination';
 import { ApiService } from 'src/app/shared/services/api.service';
+
 
 @Component({
   selector: 'app-examinations-list',
@@ -9,17 +9,16 @@ import { ApiService } from 'src/app/shared/services/api.service';
   styleUrls: ['./examinations-list.page.scss'],
 })
 export class ExaminationsListPage {
-  @ViewChild(IonModal, { static: true }) modal!: IonModal;
 
-  message = 'Untersuchung:';
-  examination: Examination | undefined;
-  examinations: Examination[] = [];
+  private _apiServ = inject(ApiService)
+  public examinations!: Examination[];
 
-  constructor(private apiServ: ApiService) {
-    this.loadNames();
+  constructor() {
+    this.queryExaminations();
   }
-  async loadNames() {
-    this.examinations = await this.apiServ.getExaminations();
-    console.table(this.examinations);
+
+  async queryExaminations() {
+    this.examinations = await this._apiServ.getExaminations();
+    console.log(this.examinations)
   }
 }
