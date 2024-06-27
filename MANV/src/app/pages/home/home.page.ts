@@ -1,10 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonModal } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
-import { Device } from 'src/app/shared/models/Device';
-import { ApiService } from 'src/app/shared/services/api.service';
-import { AuthService } from 'src/app/shared/services/auth.service';
-import { ExaminationService } from 'src/app/shared/services/examination.service';
+import { AlertController, ModalController } from '@ionic/angular';
+import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 
 @Component({
   selector: 'app-home',
@@ -13,45 +11,94 @@ import { ExaminationService } from 'src/app/shared/services/examination.service'
 })
 export class HomePage implements OnInit {
   @ViewChild(IonModal, { static: true }) modal!: IonModal;
-
+  isSupported = false;
   message = 'Untersuchung:';
   name: string = '';
   names: string[] = [];
+  device: string = '';
+  devices: string[] = [];
+  barcodes: Barcode[] = [];
 
-  constructor() {}
+  constructor(private alertController: AlertController, private modalCtrl: ModalController) {}
 
   cancel() {
     this.modal.dismiss(null, 'cancel');
   }
 
   confirm() {
-    this.modal.dismiss(this.name, 'confirm');
+    this.modal.dismiss({ name: this.name, device: this.device }, 'confirm');
+  }
+
+  async scan(): Promise<void> {
+    const granted = await this.requestPermissions();
+    if (!granted) {
+      this.presentAlert();
+      return;
+    }
+    const { barcodes } = await BarcodeScanner.scan();
+    this.barcodes.push(...barcodes);
+  }
+  async requestPermissions(): Promise<boolean> {
+    const { camera } = await BarcodeScanner.requestPermissions();
+    return camera === 'granted' || camera === 'limited';
+  }
+  async presentAlert(): Promise<void> {
+    const alert = await this.alertController.create({
+      header: 'Permission denied',
+      message: 'Please grant camera permission to use the barcode scanner.',
+      buttons: ['OK'],
+    });
+    await alert.present();
   }
 
   onWillDismiss(event: Event) {
-    const ev = event as CustomEvent<OverlayEventDetail<string>>;
+    const ev = event as CustomEvent<OverlayEventDetail<{ name: string, device: string }>>;
     if (ev.detail.role === 'confirm') {
-      this.names.push(ev.detail.data!);
+      const { name, device } = ev.detail.data!;
+      this.names.push(name);
+      this.devices.push(device);
       this.message = `Untersuchungen: `;
       this.name = '';
+      this.device = '';
       this.saveNames();
+      this.saveDevices();
     }
   }
+
   removeName(index: number) {
     this.names.splice(index, 1);
+    this.devices.splice(index, 1);
     this.saveNames();
+    this.saveDevices();
   }
 
   ngOnInit() {
     this.loadNames();
+    this.loadDevices();
+    BarcodeScanner.isSupported().then((result) => {
+      this.isSupported = result.supported;
+    });
   }
+
   saveNames() {
     localStorage.setItem('names', JSON.stringify(this.names));
   }
+
+  saveDevices() {
+    localStorage.setItem('devices', JSON.stringify(this.devices));
+  }
+
   loadNames() {
     const storedNames = localStorage.getItem('names');
     if (storedNames) {
       this.names = JSON.parse(storedNames);
+    }
+  }
+
+  loadDevices() {
+    const storedDevices = localStorage.getItem('devices');
+    if (storedDevices) {
+      this.devices = JSON.parse(storedDevices);
     }
   }
 }
