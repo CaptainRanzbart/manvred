@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonModal } from '@ionic/angular';
-import { OverlayEventDetail } from '@ionic/core/components';
-import { AlertController, ModalController } from '@ionic/angular';
+import { IonModal, LoadingController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { ApiService } from 'src/app/shared/services/api.service';
+import { Device } from 'src/app/shared/models/Device';
+import { ExaminationResult } from 'src/app/shared/models/ExaminationResult';
+import { SymptomDevice } from 'src/app/shared/models/SymptomDevice';
 
 @Component({
   selector: 'app-home',
@@ -13,24 +15,50 @@ import { ApiService } from 'src/app/shared/services/api.service';
 export class HomePage implements OnInit {
   @ViewChild(IonModal, { static: true }) modal!: IonModal;
   isSupported = false;
-  name: string = '';
-  names: string[] = [];
+  validUUID = false;
+  resultId: string = '';
   device: string = '';
-  devices: string[] = [];
+  devices: Device[] | any[] = [];
   barcodes: Barcode[] = [];
 
   constructor(
     private alertController: AlertController,
-    private modalCtrl: ModalController,
-    private apiServ: ApiService
+    private apiServ: ApiService,
+    private loadingController: LoadingController
   ) {}
 
+  async ngOnInit() {
+    BarcodeScanner.isSupported().then((result: { supported: boolean }) => {
+      this.isSupported = result.supported;
+    });
+  }
+  isUUID(uuid: string): boolean {
+    if (
+      !/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(
+        uuid
+      )
+    ) {
+      return false;
+    }
+    return true;
+  }
+  async checkUUID(e: any) {
+    if (this.isUUID(e.detail.value)) {
+      await this.loadDevices();
+      this.validUUID = true;
+    }
+  }
   cancel() {
     this.modal.dismiss(null, 'cancel');
   }
 
-  confirm() {
-    this.modal.dismiss({ name: this.name, device: this.device }, 'confirm');
+  async confirm() {
+    const loadingIndicator = await this.showLoadingIndictator(
+      'Erstelle Untersuchung ...'
+    );
+    await this.apiServ.createExamination(this.resultId, this.device);
+    loadingIndicator.dismiss();
+    this.modal.dismiss('confirm');
   }
 
   async scan(): Promise<void> {
@@ -40,7 +68,7 @@ export class HomePage implements OnInit {
       return;
     }
     const { barcodes } = await BarcodeScanner.scan();
-    this.apiServ.createExamination(this.barcodes[0].rawValue, this.device);
+    this.resultId = this.barcodes[0].rawValue;
   }
   async requestPermissions(): Promise<boolean> {
     const { camera } = await BarcodeScanner.requestPermissions();
@@ -54,56 +82,23 @@ export class HomePage implements OnInit {
     });
     await alert.present();
   }
-
-  onWillDismiss(event: Event) {
-    const ev = event as CustomEvent<
-      OverlayEventDetail<{ name: string; device: string }>
-    >;
-    if (ev.detail.role === 'confirm') {
-      const { name, device } = ev.detail.data!;
-      this.names.push(name);
-      this.devices.push(device);
-      this.name = '';
-      this.device = '';
-      this.saveNames();
-      this.saveDevices();
-    }
+  async loadDevices() {
+    const loadingIndicator = await this.showLoadingIndictator('Lade Geräte');
+    var result: ExaminationResult = await this.apiServ.getExaminationResult(
+      this.resultId
+    );
+    this.devices =
+      result.Symptom?.Device.map((symptDevice: SymptomDevice) => {
+        return symptDevice.Device_id;
+      }) || [];
+    loadingIndicator.dismiss();
   }
 
-  removeName(index: number) {
-    this.names.splice(index, 1);
-    this.devices.splice(index, 1);
-    this.saveNames();
-    this.saveDevices();
-  }
-
-  ngOnInit() {
-    this.loadNames();
-    this.loadDevices();
-    BarcodeScanner.isSupported().then((result: { supported: boolean }) => {
-      this.isSupported = result.supported;
+  private async showLoadingIndictator(message: string) {
+    const loadingIndicator = await this.loadingController.create({
+      message: message,
     });
-  }
-
-  saveNames() {
-    localStorage.setItem('names', JSON.stringify(this.names));
-  }
-
-  saveDevices() {
-    localStorage.setItem('devices', JSON.stringify(this.devices));
-  }
-
-  loadNames() {
-    const storedNames = localStorage.getItem('names');
-    if (storedNames) {
-      this.names = JSON.parse(storedNames);
-    }
-  }
-
-  loadDevices() {
-    const storedDevices = localStorage.getItem('devices');
-    if (storedDevices) {
-      this.devices = JSON.parse(storedDevices);
-    }
+    await loadingIndicator.present();
+    return loadingIndicator;
   }
 }
