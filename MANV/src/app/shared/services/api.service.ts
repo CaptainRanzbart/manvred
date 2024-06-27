@@ -31,8 +31,27 @@ export class ApiService {
 
   private _defaultQueryParams: object = { fields: ['*.*.*.*.*'] };
 
-  async createExamination(patientId: string, deviceId: string) {
-    var token = (await this.directusService.getToken()) || '';
+  async createExamination(examinationResultId: string, deviceId: string) {
+    var doctor = await this.getCurrentUser();
+    var device: Device | any = await this.getObject(
+      'Device',
+      deviceId,
+      this._defaultQueryParams
+    );
+    var result: ExaminationResult | any = await this.getObject(
+      'ExaminationResult',
+      examinationResultId,
+      this._defaultQueryParams
+    );
+    var examination: Examination = {
+      id: '',
+      Device: device,
+      Doctor: doctor,
+      ExaminationResult: result,
+      Patient: result.Patient,
+      StartTime: new Date(),
+    };
+    console.log(examination);
   }
   async getPatients(
     queryParams: object = this._defaultQueryParams
@@ -84,7 +103,7 @@ export class ApiService {
     );
   }
 
-  private async getObject(key: string, id: string, queryParams: object) {
+  private async getObject(key: string, id: string, queryParams?: object) {
     var token = (await this.directusService.getToken()) || '';
     return this.restClient.request(
       withToken(token, readItem(key, id, queryParams))
