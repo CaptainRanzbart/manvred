@@ -33,3 +33,11 @@
     border-radius: 12px;
 }
 
+.scanButton{
+    position: fixed;
+    margin-top: 30px;
+    left: 50%; /* Zentrierung horizontal */
+    transform: translateX(-50%); /* Exakte Zentrierung */
+    width: 80px; /* Größe des Buttons */
+    height: 80px;
+}
