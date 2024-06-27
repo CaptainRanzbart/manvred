@@ -30,7 +30,6 @@ export class ApiService {
 
   async createExamination(examinationResultId: string, deviceId: string) {
     var token = (await this.directusService.getToken()) || '';
-    var doctor = await this.getCurrentUser();
     var device: Device | any = await this.getObject(
       'Device',
       deviceId,
@@ -44,7 +43,7 @@ export class ApiService {
     var examination: Examination = {
       id: '',
       Device: device,
-      Doctor: doctor,
+      Doctor: null,
       ExaminationResult: result,
       Patient: result.Patient,
       StartTime: new Date(),
