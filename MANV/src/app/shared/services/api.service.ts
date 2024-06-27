@@ -29,57 +29,65 @@ export class ApiService {
 
   constructor(private directusService: DirectusService) {}
 
-  private _defaultQueryParams: object = { fields: ['*.*.*.*.*'] }
-
+  private _defaultQueryParams: object = { fields: ['*.*.*.*.*'] };
 
   async createExamination(patientId: string, deviceId: string) {
     var token = (await this.directusService.getToken()) || '';
-    return await this.restClient.request(
-      createItem('Examination', examination)
-    );
   }
-  async getPatients(queryParams: object = this._defaultQueryParams): Promise<Patient[] | any> {
+  async getPatients(
+    queryParams: object = this._defaultQueryParams
+  ): Promise<Patient[] | any> {
     return await this.getObjects('Patient', queryParams);
   }
-  async getExaminations(queryParams: object = this._defaultQueryParams): Promise<Examination[] | any> {
+  async getExaminations(
+    queryParams: object = this._defaultQueryParams
+  ): Promise<Examination[] | any> {
     return await this.getObjects('Examination', queryParams);
   }
-  async getExamination(id: string, queryParams: object = this._defaultQueryParams): Promise<Examination[] | any> {
+  async getExamination(
+    id: string,
+    queryParams: object = this._defaultQueryParams
+  ): Promise<Examination[] | any> {
     return await this.getObject('Examination', id, queryParams);
   }
-  async getRooms(queryParams: object = this._defaultQueryParams): Promise<Room[] | any> {
+  async getRooms(
+    queryParams: object = this._defaultQueryParams
+  ): Promise<Room[] | any> {
     return await this.getObjects('Room', queryParams);
   }
-  async getSymptoms(queryParams: object = this._defaultQueryParams): Promise<Symptom[] | any> {
+  async getSymptoms(
+    queryParams: object = this._defaultQueryParams
+  ): Promise<Symptom[] | any> {
     return await this.getObjects('Symptom', queryParams);
   }
-  async getExaminationResult(id: string, queryParams: object = this._defaultQueryParams): Promise<ExaminationResult[] | any> {
+  async getExaminationResult(
+    id: string,
+    queryParams: object = this._defaultQueryParams
+  ): Promise<ExaminationResult[] | any> {
     return await this.getObject('ExaminationResult', id, queryParams);
   }
-  async getExaminationResults(queryParams: object = this._defaultQueryParams): Promise<ExaminationResult[] | any> {
+  async getExaminationResults(
+    queryParams: object = this._defaultQueryParams
+  ): Promise<ExaminationResult[] | any> {
     return await this.getObjects('ExaminationResult', queryParams);
   }
-  async getDevices(queryParams: object = this._defaultQueryParams): Promise<Device[] | any> {
+  async getDevices(
+    queryParams: object = this._defaultQueryParams
+  ): Promise<Device[] | any> {
     return await this.getObjects('Device', queryParams);
   }
 
   private async getObjects(key: string, queryParams: object) {
     var token = (await this.directusService.getToken()) || '';
     return this.restClient.request(
-      withToken(
-        token,
-        readItems(key, queryParams)
-      )
+      withToken(token, readItems(key, queryParams))
     );
   }
 
   private async getObject(key: string, id: string, queryParams: object) {
     var token = (await this.directusService.getToken()) || '';
     return this.restClient.request(
-      withToken(
-        token,
-        readItem(key, id, queryParams)
-      )
+      withToken(token, readItem(key, id, queryParams))
     );
   }
 
