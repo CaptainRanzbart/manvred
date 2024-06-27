@@ -11,7 +11,7 @@
     >
   </ion-grid>
 
-  <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+  <ion-modal trigger="open-modal">
     <ng-template>
       <ion-header>
         <ion-toolbar>
@@ -20,7 +20,10 @@
           </ion-buttons>
           <ion-title>Neue Untersuchung anlegen</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="confirm()" [strong]="true"
+            <ion-button
+              (click)="confirm()"
+              [strong]="true"
+              [disabled]="!validUUID"
               >Bestätigen</ion-button
             >
           </ion-buttons>
@@ -34,14 +37,23 @@
             type="text"
             placeholder="Untersuchung"
             [(ngModel)]="resultId"
+            (ionChange)="checkUUID($event)"
           ></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="stacked">Device</ion-label>
-          <ion-input
+          <ion-select
+            label="Gerät"
+            labelPlacement="stacked"
+            placeholder="Gerät"
             [(ngModel)]="device"
-            placeholder="Enter device"
-          ></ion-input>
+            [disabled]="!validUUID"
+          >
+            <ion-select-option
+              *ngFor="let device of devices"
+              [value]="device.id"
+              >{{device.Name}}</ion-select-option
+            >
+          </ion-select>
         </ion-item>
         <!-- Barcode Scanner Section -->
         <ion-list>
