@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, ViewChild, inject } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { Examination } from 'src/app/shared/models/Examination';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { RealTimeService } from 'src/app/shared/services/realtime.service';
@@ -20,15 +20,17 @@ export class ExaminationsListPage {
 
   public subs: Subscription = new Subscription();
 
-  constructor() {
+  constructor() { 
   }
 
   async ngOnInit() {
     (await this._realTime.createObservable("Examination")).subscribe((event) => {
       switch (event.event) {
         case "create":
-          const itemsToInsert: Set<Examination> = new Set(event.data)
-          this.examinations.push(...itemsToInsert)
+          if (this.examinations.some(exam => exam.id === event.data[0].id)) break;
+          const itemsToInsert: Set<Examination> = new Set(event.data);
+          this.examinations.push(...itemsToInsert);
+          this.examinations = Array.from(new Set<Examination>(this.examinations));
           break;
         case "update":
           this.examinations = this.examinations.map((elem) => {
@@ -41,7 +43,7 @@ export class ExaminationsListPage {
           this.examinations = this.examinations.filter((elem) => { return !event.data.includes(elem.id); });
           break;
         default:
-           this.examinations = event.data;
+          this.examinations = event.data;
           break;
       }
     })
