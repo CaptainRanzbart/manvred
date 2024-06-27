@@ -7,12 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { ExaminationsListPageRoutingModule } from './examinations-list-routing.module';
 
 import { ExaminationsListPage } from './examinations-list.page';
+import { ExaminationComponent } from 'src/app/components/examination/examination.component';
+import { ExaminationModule } from 'src/app/components/examination/examination.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ExaminationModule,
     ExaminationsListPageRoutingModule
   ],
   declarations: [ExaminationsListPage]

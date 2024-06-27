@@ -1,101 +1,43 @@
-ion-title {
-    color: white;
-  }
-  
-  .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    padding-top: 20px;
-  }
-  
-  .patient-details, .device-details, .duration-details, .result-details {
-    border: 2px solid gray;
-    border-radius: 15px;
-    padding: 20px;
-    margin: 20px;
-    color: white;
-    background-color: black;
-    text-align: left;
-    width: 90%;
-    max-width: 500px;
-  }
-  
-  .patient-field, .device-field, .duration-field, .result-field {
-    padding-left: 10px;
-  }
-  
-  .property {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .patient-details h2, .device-details h2, .duration-details h2, .result-details h2 {
-    color: red;
-    margin: 0;
-    padding-bottom: 10px;
-    padding-left: 10px;
-  }
-  
-  .property strong, .property span {
-    color: white;
-    margin: 5px 0;
-  }
-  
-  ion-content {
-    --background: black;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    overflow-y: auto;
-  }
-  
-  .title {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-left: 10px;
-  }
-  
-  ion-toolbar, ion-tab-bar {
-    --background: #000000;
-    --ion-color-base: #ffffff;
-  }
-  
-  .custom-background {
-    --background: #000000;
-  }
-  
-  .custom-text {
-    font-size: 1rem;
-  }
-  
-  ion-button {
-    --background: #ff0000;
-    --color: #ffffff;
-  }
-  
-  ion-icon {
-    color: #ffffff;
-  }
-  
-  ion-label {
-    color: #ffffff;
-  }
-  
-  .rounded {
-    border-radius: 12px;
-  }
-  
-  .header-content {
-    display: flex;
-    align-items: center;
-  }
-  
-  .header-icon {
-    height: 64px;
-    width: 64px;
-    margin-top: 25px; /* Verschiebt das Icon um 25 Pixel nach unten */
-    margin-left: 25px; /* Verschiebt das Icon um 25 Pixel nach rechts */
-  }
-  
+.detail-card{
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  border-radius: .5rem;
+  padding: 1rem;
+  margin: .5rem 0rem .5rem 0rem;
+  width: 100%;
+}
+
+h4 {
+ margin: 0rem;
+}
+
+.property {
+  display: flex;
+  margin: .25rem 0rem .25rem 0rem;
+  justify-content: space-between;
+}
+
+ion-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.custom-text {
+  font-size: 1rem;
+}
+
+.rounded {
+  border-radius: 12px;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+}
+
+.header-icon {
+  height: 64px;
+  width: 64px;
+  margin: 25px;
+}

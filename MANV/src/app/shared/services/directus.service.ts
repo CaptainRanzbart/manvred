@@ -4,6 +4,7 @@ import {
   DirectusClient,
   authentication,
   createDirectus,
+  realtime,
   rest,
 } from '@directus/sdk';
 import { environment } from 'src/environments/environment';
@@ -18,7 +19,8 @@ export class DirectusService {
   constructor(private storage: localStorageService) {
     this.client = createDirectus(environment.baseApiUrl)
       .with(authentication('json', { storage }))
-      .with(rest());
+      .with(rest())
+      .with(realtime());
   }
   public async getToken() {
     return this.client.getToken();

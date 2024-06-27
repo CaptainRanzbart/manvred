@@ -13,9 +13,13 @@ const routes: Routes = [
           import('../home/home.module').then((m) => m.HomePageModule),
       },
       {
-        path: 'examinations-list',
+        path: 'examinations',
         loadChildren: () =>
           import('../examinations-list/examinations-list.module').then((m) => m.ExaminationsListPageModule),
+      },
+      {
+        path: 'examinations/:id',
+        loadChildren: () => import('../../pages/examination-detail/examination-detail.module').then( m => m.ExaminationDetailPageModule)
       },
       {
         path: '',

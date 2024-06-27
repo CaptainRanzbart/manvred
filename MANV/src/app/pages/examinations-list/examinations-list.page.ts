@@ -1,7 +1,9 @@
-import { Component, ViewChild } from '@angular/core';
-import { IonModal } from '@ionic/angular';
+import { Component, ViewChild, inject } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { Examination } from 'src/app/shared/models/Examination';
 import { ApiService } from 'src/app/shared/services/api.service';
+import { RealTimeService } from 'src/app/shared/services/realtime.service';
+
 
 @Component({
   selector: 'app-examinations-list',
@@ -9,17 +11,39 @@ import { ApiService } from 'src/app/shared/services/api.service';
   styleUrls: ['./examinations-list.page.scss'],
 })
 export class ExaminationsListPage {
-  @ViewChild(IonModal, { static: true }) modal!: IonModal;
 
-  message = 'Untersuchung:';
-  examination: Examination | undefined;
-  examinations: Examination[] = [];
+  private _apiServ = inject(ApiService);
+  private _realTime = inject(RealTimeService);
+  public examinations!: Examination[];
 
-  constructor(private apiServ: ApiService) {
-    this.loadNames();
+  private subscription!: Subscription;
+
+  public subs: Subscription = new Subscription();
+
+  constructor() { 
   }
-  async loadNames() {
-    this.examinations = await this.apiServ.getExaminations();
-    console.table(this.examinations);
+
+  async ngOnInit() {
+    (await this._realTime.createObservable("Examination")).subscribe((event) => {
+      switch (event.event) {
+        case "create":
+          const itemsToInsert: Set<Examination> = new Set(event.data)
+          this.examinations.push(...itemsToInsert)
+          break;
+        case "update":
+          this.examinations = this.examinations.map((elem) => {
+            const matchedItem = event.data.find((eventItem: { id: string; }) => eventItem.id === elem.id);
+            if (matchedItem) return matchedItem;
+            else return elem;
+          })
+          break;
+        case "delete":
+          this.examinations = this.examinations.filter((elem) => { return !event.data.includes(elem.id); });
+          break;
+        default:
+           this.examinations = event.data;
+          break;
+      }
+    })
   }
 }

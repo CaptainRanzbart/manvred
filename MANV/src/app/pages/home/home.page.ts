@@ -12,7 +12,6 @@ import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 export class HomePage implements OnInit {
   @ViewChild(IonModal, { static: true }) modal!: IonModal;
   isSupported = false;
-  message = 'Untersuchung:';
   name: string = '';
   names: string[] = [];
   device: string = '';
@@ -57,7 +56,6 @@ export class HomePage implements OnInit {
       const { name, device } = ev.detail.data!;
       this.names.push(name);
       this.devices.push(device);
-      this.message = `Untersuchungen: `;
       this.name = '';
       this.device = '';
       this.saveNames();
@@ -75,7 +73,7 @@ export class HomePage implements OnInit {
   ngOnInit() {
     this.loadNames();
     this.loadDevices();
-    BarcodeScanner.isSupported().then((result) => {
+    BarcodeScanner.isSupported().then((result: { supported: boolean; }) => {
       this.isSupported = result.supported;
     });
   }

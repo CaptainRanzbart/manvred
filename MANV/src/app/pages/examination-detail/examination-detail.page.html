@@ -1,43 +1,52 @@
 <ion-header>
   <ion-toolbar>
-    <div class="header-content">
-      <ion-img src="../../assets/icon.png" class="header-icon"></ion-img>
-      <ion-title class="title">Examination Detail</ion-title>
-    </div>
+    <ion-title class="title">Examination Detail</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding custom-background" fullscreen>
-  <div class="container">
-    <div class="patient-details">
-      <h2>Patient:</h2>
-      <div class="patient-field">
-        <div class="property"><strong>Name:</strong><span>Manvred Manv</span></div>
-        <div class="property"><strong>Age:</strong><span>30</span></div>
-        <div class="property"><strong>Weight:</strong><span>100 kg</span></div>
-        <div class="property"><strong>Blood Type:</strong><span>A+</span></div>
+<ion-content class="ion-padding ion-center" fullscreen>
+  <ion-grid class="max-width-container" *ngIf="examinationResult && examination">
+    <ion-row>
+      <div class="detail-card">
+        <h5>Patient:</h5>
+        <hr>
+        <div>
+          <div class="property"><strong>Name:</strong><span>{{ examinationResult.Patient?.Name }}</span></div>
+          <div class="property"><strong>Age:</strong><span>{{ examinationResult.Patient?.Age }}</span></div>
+          <div class="property"><strong>Weight:</strong><span>{{ examinationResult.Patient?.Weight }} kg</span></div>
+          <div class="property"><strong>Blood Type:</strong><span>{{ examinationResult.Patient?.BloodType }}</span></div>
+        </div>
       </div>
-    </div>
-    <div class="device-details">
-      <h2>Device:</h2>
-      <div class="device-field">
-        <div class="property"><strong>Name:</strong><span>EKG</span></div>
-        <div class="property"><strong>Room:</strong><span>100</span></div>
+    </ion-row>
+    <ion-row>
+      <div class="detail-card">
+        <h5>Device:</h5>
+        <hr>
+        <div>
+          <div class="property"><strong>Name:</strong><span>{{ examination.Device?.Name }}</span></div>
+          <div class="property"><strong>Room:</strong><span>{{ examination.Device?.Room?.Name }}</span></div>
+        </div>
       </div>
-    </div>
-    <div class="duration-details">
-      <h2>Duration:</h2>
-      <div class="duration-field">
-        <div class="property"><strong>Start Time:</strong><span>09:00</span></div>
-        <div class="property"><strong>Time Left:</strong><span>14:59</span></div>
+    </ion-row>
+    <ion-row>
+      <div class="detail-card">
+        <h5>Duration:</h5>
+        <hr>
+        <div>
+          <div class="property"><strong>Start Time:</strong><span>{{ examination.StartTime | date: 'medium' }}</span></div>
+          <div class="property"><strong>Duration:</strong><span>{{ examination.Device?.Duration }}s</span></div>
+        </div>
       </div>
-    </div>
-    <div class="result-details">
-      <h2>Examination Result:</h2>
-      <div class="result-field">
-        <div class="property"><strong>Body Part:</strong><span>Chest</span></div>
-        <div class="property"><strong>Symptom:</strong><span>Pain</span></div>
+    </ion-row>
+    <ion-row>
+      <div class="detail-card">
+        <h5>Examination Result:</h5>
+        <hr>
+        <div>
+          <div class="property"><strong>Body Part:</strong><span>{{ examinationResult.Bodypart }}</span></div>
+          <div class="property"><strong>Symptom:</strong><span>{{ examinationResult.Symptom?.Name }}</span></div>
+        </div>
       </div>
-    </div>
-  </div>
+    </ion-row>
+  </ion-grid>
 </ion-content>
