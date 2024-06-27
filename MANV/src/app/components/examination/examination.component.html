@@ -1,3 +1,21 @@
-<div class="examination-card">
-  asd
-</div>
+<a [class.disabled]="(remainingTime > 0)" [href]="'examinations/' + examination.ExaminationResult?.id">
+  <div class="examination-card">
+    <div class="divider">
+      <div class="div-left">
+        <h5><strong>{{ examination.ExaminationResult?.Patient?.Name }}</strong></h5>
+        <p><strong>Gerät: </strong>{{ examination.Device?.Name }}</p>
+        <p><strong>Dauer: </strong>{{ examination.Device?.Duration }}s</p>
+        <p><strong>Raum: </strong>{{ examination.Device?.Room?.Name }}</p>
+      </div>
+
+      <div class="div-right" *ngIf="remainingTime > 0">
+        <ion-spinner></ion-spinner>
+      </div>
+      <div class="div-right" *ngIf="remainingTime <= 0">
+        <ion-icon size="large" name="chevron-forward-outline"></ion-icon>
+      </div>
+    </div>
+
+    <ion-progress-bar [value]="progress"></ion-progress-bar>
+  </div>
+</a>

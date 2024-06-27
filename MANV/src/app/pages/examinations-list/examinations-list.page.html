@@ -7,9 +7,7 @@
 <ion-content class="ion-padding ion-center">
   <ion-grid class="max-width-container">
     <div class="examination-list">
-      <app-examination></app-examination>
-      <app-examination></app-examination>
-      <app-examination></app-examination>
+      <app-examination *ngFor="let examination of examinations" [examination]="examination"></app-examination>
     </div>
   </ion-grid>
 
