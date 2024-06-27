@@ -18,23 +18,41 @@
           </ion-buttons>
           <ion-title>Neue Untersuchung anlegen</ion-title>
           <ion-buttons slot="end">
-            <ion-button (click)="confirm()" [strong]="true"
-              >Bestätigen</ion-button
-            >
+            <ion-button (click)="confirm()" [strong]="true">Bestätigen</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
         <ion-item>
           <ion-input
-            label="Neue Untersuchung anglegen"
+            label="Neue Untersuchung anlegen"
             labelPlacement="stacked"
             type="text"
             placeholder="Untersuchung"
             [(ngModel)]="name"
           ></ion-input>
         </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Device</ion-label>
+          <ion-input [(ngModel)]="device" placeholder="Enter device"></ion-input>
+        </ion-item>
+        <!-- Barcode Scanner Section -->
+        <ion-list>
+          <ion-item *ngFor="let barcode of barcodes">
+            <ion-label position="stacked">{{ barcode.format }}</ion-label>
+            <ion-input type="text" [value]="barcode.rawValue"></ion-input>
+          </ion-item>
+        </ion-list>
+        <div style="text-align: center; margin-top: 10px;" >
+          <ion-fab-button (click)="scan()" [disabled]="!isSupported"class="scanButton">
+            <ion-icon name="scan"></ion-icon> 
+          </ion-fab-button >
+          Scannen Sie ihren Barcode, 
+          um die Untersuchung anzulegen
+        </div>
+        <!-- End of Barcode Scanner Section -->
       </ion-content>
     </ng-template>
   </ion-modal>
 </ion-content>
+  
