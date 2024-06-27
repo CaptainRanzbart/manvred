@@ -5,46 +5,79 @@
 </ion-header>
 
 <ion-content class="ion-padding ion-center" fullscreen>
-  <ion-grid class="max-width-container" *ngIf="examinationResult && examination">
+  <ion-grid class="max-width-container" *ngIf="examination">
     <ion-row>
       <div class="detail-card">
         <h5>Patient:</h5>
-        <hr>
+        <hr />
         <div>
-          <div class="property"><strong>Name:</strong><span>{{ examinationResult.Patient?.Name }}</span></div>
-          <div class="property"><strong>Age:</strong><span>{{ examinationResult.Patient?.Age }}</span></div>
-          <div class="property"><strong>Weight:</strong><span>{{ examinationResult.Patient?.Weight }} kg</span></div>
-          <div class="property"><strong>Blood Type:</strong><span>{{ examinationResult.Patient?.BloodType }}</span></div>
+          <div class="property">
+            <strong>Name:</strong
+            ><span>{{ examination.ExaminationResult?.Patient?.Name }}</span>
+          </div>
+          <div class="property">
+            <strong>Age:</strong
+            ><span>{{ examination.ExaminationResult?.Patient?.Age }}</span>
+          </div>
+          <div class="property">
+            <strong>Weight:</strong
+            ><span
+              >{{ examination.ExaminationResult?.Patient?.Weight }} kg</span
+            >
+          </div>
+          <div class="property">
+            <strong>Blood Type:</strong
+            ><span
+              >{{ examination.ExaminationResult?.Patient?.BloodType }}</span
+            >
+          </div>
         </div>
       </div>
     </ion-row>
     <ion-row>
       <div class="detail-card">
         <h5>Device:</h5>
-        <hr>
+        <hr />
         <div>
-          <div class="property"><strong>Name:</strong><span>{{ examination.Device?.Name }}</span></div>
-          <div class="property"><strong>Room:</strong><span>{{ examination.Device?.Room?.Name }}</span></div>
+          <div class="property">
+            <strong>Name:</strong><span>{{ examination.Device?.Name }}</span>
+          </div>
+          <div class="property">
+            <strong>Room:</strong
+            ><span>{{ examination.Device?.Room?.Name }}</span>
+          </div>
         </div>
       </div>
     </ion-row>
     <ion-row>
       <div class="detail-card">
         <h5>Duration:</h5>
-        <hr>
+        <hr />
         <div>
-          <div class="property"><strong>Start Time:</strong><span>{{ examination.StartTime | date: 'medium' }}</span></div>
-          <div class="property"><strong>Duration:</strong><span>{{ examination.Device?.Duration }}s</span></div>
+          <div class="property">
+            <strong>Start Time:</strong
+            ><span>{{ examination.StartTime | date: 'medium' }}</span>
+          </div>
+          <div class="property">
+            <strong>Duration:</strong
+            ><span>{{ examination.Device?.Duration }}s</span>
+          </div>
         </div>
       </div>
     </ion-row>
     <ion-row>
       <div class="detail-card">
         <h5>Examination Result:</h5>
-        <hr>
+        <hr />
         <div>
-          <div class="property"><strong>Body Part:</strong><span>{{ examinationResult.Bodypart }}</span></div>
-          <div class="property"><strong>Symptom:</strong><span>{{ examinationResult.Symptom?.Name }}</span></div>
+          <div class="property">
+            <strong>Body Part:</strong
+            ><span>{{ examination.ExaminationResult?.Bodypart }}</span>
+          </div>
+          <div class="property">
+            <strong>Symptom:</strong
+            ><span>{{ examination.ExaminationResult?.Symptom?.Name }}</span>
+          </div>
         </div>
       </div>
     </ion-row>

@@ -11,9 +11,8 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./examination-detail.page.scss'],
 })
 export class ExaminationDetailPage implements OnInit {
-  private _examinationResultId!: string | null;
-  public examinationResult!: ExaminationResult;
-  public examination!: Examination;
+  private _examinationId!: string | null;
+  public examination: Examination | undefined;
 
   private _apiServ = inject(ApiService);
   private _route = inject(ActivatedRoute);
@@ -21,22 +20,13 @@ export class ExaminationDetailPage implements OnInit {
   constructor() {}
 
   async ngOnInit() {
-    this._examinationResultId = this._route.snapshot.paramMap.get('id');
+    this._examinationId = this._route.snapshot.paramMap.get('id');
 
-    if (this._examinationResultId) {
-      const examinationQuery = {
-        fields: ['*.*.*.*.*'],
-        ExaminationResult: this._examinationResultId,
-        limit: 1,
-      };
-      this.examinationResult = await this._apiServ.getExaminationResult(
-        this._examinationResultId
-      );
+    if (this._examinationId) {
       const examinations: Examination[] = await this._apiServ.getExaminations();
       this.examination = examinations.filter((examination) => {
-        return this._examinationResultId === examination.id;
+        return this._examinationId === examination.id;
       })[0];
-      console.log(this.examination);
     }
   }
 }
