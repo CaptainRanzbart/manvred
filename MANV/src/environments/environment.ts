@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  baseApiUrl: 'http://localhost:8055/',
+  // baseApiUrl: 'http://localhost:8055/',
+  baseApiUrl: 'https://manv.switzerlandnorth.cloudapp.azure.com/',
 };
 
 /*

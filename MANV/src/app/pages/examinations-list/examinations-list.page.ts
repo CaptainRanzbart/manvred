@@ -1,5 +1,5 @@
-import { Component, ViewChild, inject } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Component, inject } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Examination } from 'src/app/shared/models/Examination';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { RealTimeService } from 'src/app/shared/services/realtime.service';
@@ -20,7 +20,7 @@ export class ExaminationsListPage {
 
   public subs: Subscription = new Subscription();
 
-  constructor() { 
+  constructor() {
   }
 
   async ngOnInit() {
