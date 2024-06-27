@@ -1,39 +1,40 @@
 a {
-    text-decoration: none;
-    color: var(--ion-text-color);
+  text-decoration: none;
+  color: var(--ion-text-color);
 }
 
 a.disabled {
-    pointer-events: none;
+  pointer-events: none;
 }
 
 p {
-    margin: .25rem 0rem;
+  margin: .25rem 0rem;
 }
 
 .examination-card {
-    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
-    width: 100%;
-    padding: 1rem;
-    border-radius: .5rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  width: 100%;
+  padding: 1rem;
+  border-radius: .5rem;
 }
 
 ion-progress-bar {
-    margin-top: .5rem;
+  margin-top: .5rem;
 }
 
 .divider {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.div-left {
-
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .div-right {
-    display: flex;
-    align-items: center;
-    gap: .5rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.creator-text {
+  font-size: .8rem;
+  margin: .5rem 0rem;
 }

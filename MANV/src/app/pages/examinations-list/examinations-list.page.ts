@@ -1,5 +1,5 @@
 import { Component, ViewChild, inject } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Examination } from 'src/app/shared/models/Examination';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { RealTimeService } from 'src/app/shared/services/realtime.service';
@@ -15,33 +15,35 @@ export class ExaminationsListPage {
   private _apiServ = inject(ApiService);
   private _realTime = inject(RealTimeService);
   public examinations!: Examination[];
+
+  private subscription!: Subscription;
+
   public subs: Subscription = new Subscription();
 
   constructor() { 
   }
 
   async ngOnInit() {
-    await this._realTime.subscribe("Examination");
-
-    this.subs.add(this._realTime.recieved.subscribe((event) => {
+    (await this._realTime.createObservable("Examination")).subscribe((event) => {
       switch (event.event) {
         case "create":
-            console.log(this.examinations.filter((elem) => { elem.id === event.data[0].id}))
-            console.log("Created")
-            console.table(event)
+          const itemsToInsert: Set<Examination> = new Set(event.data)
+          this.examinations.push(...itemsToInsert)
+          break;
+        case "update":
+          this.examinations = this.examinations.map((elem) => {
+            const matchedItem = event.data.find((eventItem: { id: string; }) => eventItem.id === elem.id);
+            if (matchedItem) return matchedItem;
+            else return elem;
+          })
           break;
         case "delete":
-          console.log("Deleted")
-          console.table(event)
+          this.examinations = this.examinations.filter((elem) => { return !event.data.includes(elem.id); });
           break;
         default:
            this.examinations = event.data;
           break;
       }
-    }))
+    })
   }
-
-  // async queryExaminations() {
-  //   this.examinations = await this._apiServ.getExaminations();
-  // }
 }
