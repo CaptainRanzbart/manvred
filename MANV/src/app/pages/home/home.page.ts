@@ -3,6 +3,7 @@ import { IonModal } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { AlertController, ModalController } from '@ionic/angular';
 import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
+import { ApiService } from 'src/app/shared/services/api.service';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +19,11 @@ export class HomePage implements OnInit {
   devices: string[] = [];
   barcodes: Barcode[] = [];
 
-  constructor(private alertController: AlertController, private modalCtrl: ModalController) {}
+  constructor(
+    private alertController: AlertController,
+    private modalCtrl: ModalController,
+    private apiServ: ApiService
+  ) {}
 
   cancel() {
     this.modal.dismiss(null, 'cancel');
@@ -35,7 +40,7 @@ export class HomePage implements OnInit {
       return;
     }
     const { barcodes } = await BarcodeScanner.scan();
-    this.barcodes.push(...barcodes);
+    this.apiServ.createExamination(this.barcodes[0].rawValue, this.device);
   }
   async requestPermissions(): Promise<boolean> {
     const { camera } = await BarcodeScanner.requestPermissions();
@@ -51,7 +56,9 @@ export class HomePage implements OnInit {
   }
 
   onWillDismiss(event: Event) {
-    const ev = event as CustomEvent<OverlayEventDetail<{ name: string, device: string }>>;
+    const ev = event as CustomEvent<
+      OverlayEventDetail<{ name: string; device: string }>
+    >;
     if (ev.detail.role === 'confirm') {
       const { name, device } = ev.detail.data!;
       this.names.push(name);
@@ -73,7 +80,7 @@ export class HomePage implements OnInit {
   ngOnInit() {
     this.loadNames();
     this.loadDevices();
-    BarcodeScanner.isSupported().then((result: { supported: boolean; }) => {
+    BarcodeScanner.isSupported().then((result: { supported: boolean }) => {
       this.isSupported = result.supported;
     });
   }

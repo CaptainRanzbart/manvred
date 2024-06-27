@@ -31,7 +31,8 @@ export class ApiService {
 
   private _defaultQueryParams: object = { fields: ['*.*.*.*.*'] }
 
-  async createExamination(examination: Examination) {
+
+  async createExamination(patientId: string, deviceId: string) {
     var token = (await this.directusService.getToken()) || '';
     return await this.restClient.request(
       createItem('Examination', examination)
