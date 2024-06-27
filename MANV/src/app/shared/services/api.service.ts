@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
 import {
-  AuthenticationClient,
   createItem,
-  DirectusClient,
   DirectusUser,
   readItem,
   readItems,
   readMe,
-  rest,
   RestClient,
   withToken,
 } from '@directus/sdk';
@@ -32,6 +29,7 @@ export class ApiService {
   private _defaultQueryParams: object = { fields: ['*.*.*.*.*'] };
 
   async createExamination(examinationResultId: string, deviceId: string) {
+    var token = (await this.directusService.getToken()) || '';
     var doctor = await this.getCurrentUser();
     var device: Device | any = await this.getObject(
       'Device',
@@ -51,7 +49,11 @@ export class ApiService {
       Patient: result.Patient,
       StartTime: new Date(),
     };
-    console.log(examination);
+    console.log('Created Examination');
+    console.table(examination);
+    await this.restClient.request(
+      withToken(token, createItem('Examination', examination))
+    );
   }
   async getPatients(
     queryParams: object = this._defaultQueryParams

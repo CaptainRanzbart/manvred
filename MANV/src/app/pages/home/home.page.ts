@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonModal } from '@ionic/angular';
+import { IonModal, LoadingController } from '@ionic/angular';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { AlertController, ModalController } from '@ionic/angular';
 import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
@@ -13,7 +13,7 @@ import { ApiService } from 'src/app/shared/services/api.service';
 export class HomePage implements OnInit {
   @ViewChild(IonModal, { static: true }) modal!: IonModal;
   isSupported = false;
-  name: string = '';
+  resultId: string = '';
   names: string[] = [];
   device: string = '';
   devices: string[] = [];
@@ -22,15 +22,20 @@ export class HomePage implements OnInit {
   constructor(
     private alertController: AlertController,
     private modalCtrl: ModalController,
-    private apiServ: ApiService
+    private apiServ: ApiService,
+    private loadingController: LoadingController
   ) {}
 
   cancel() {
     this.modal.dismiss(null, 'cancel');
   }
 
-  confirm() {
-    this.modal.dismiss({ name: this.name, device: this.device }, 'confirm');
+  async confirm() {
+    const loadingIndicator = await this.showLoadingIndictator();
+    await this.apiServ.createExamination(this.resultId, this.device);
+    loadingIndicator.dismiss();
+
+    this.modal.dismiss('confirm');
   }
 
   async scan(): Promise<void> {
@@ -40,7 +45,7 @@ export class HomePage implements OnInit {
       return;
     }
     const { barcodes } = await BarcodeScanner.scan();
-    this.apiServ.createExamination(this.barcodes[0].rawValue, this.device);
+    this.resultId = this.barcodes[0].rawValue;
   }
   async requestPermissions(): Promise<boolean> {
     const { camera } = await BarcodeScanner.requestPermissions();
@@ -63,7 +68,7 @@ export class HomePage implements OnInit {
       const { name, device } = ev.detail.data!;
       this.names.push(name);
       this.devices.push(device);
-      this.name = '';
+      this.resultId = '';
       this.device = '';
       this.saveNames();
       this.saveDevices();
@@ -105,5 +110,13 @@ export class HomePage implements OnInit {
     if (storedDevices) {
       this.devices = JSON.parse(storedDevices);
     }
+  }
+
+  private async showLoadingIndictator() {
+    const loadingIndicator = await this.loadingController.create({
+      message: 'Proccessing QR-Code ...',
+    });
+    await loadingIndicator.present();
+    return loadingIndicator;
   }
 }
