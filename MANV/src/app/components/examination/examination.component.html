@@ -1,12 +1,19 @@
-<a [class.disabled]="(remainingTime > 0)" [href]="'examinations/' + examination.ExaminationResult?.id">
+<a
+  [class.disabled]="remainingTime > 0"
+  [href]="'examinations/' + examination.ExaminationResult?.id"
+>
   <div class="examination-card">
     <div class="divider">
       <div class="div-left">
-        <h5><strong>{{ examination.ExaminationResult?.Patient?.Name }}</strong></h5>
+        <h5>
+          <strong>{{ examination.ExaminationResult?.Patient?.Name }}</strong>
+        </h5>
         <p><strong>Gerät: </strong>{{ examination.Device?.Name }}</p>
         <p><strong>Dauer: </strong>{{ examination.Device?.Duration }}s</p>
         <p><strong>Raum: </strong>{{ examination.Device?.Room?.Name }}</p>
-        <p class="creator-text">Erstellt von: {{examination.Doctor?.email}}</p>
+        <p class="creator-text">
+          Erstellt von: {{ examination.Doctor?.email }}
+        </p>
       </div>
 
       <div class="div-right" *ngIf="remainingTime > 0">
