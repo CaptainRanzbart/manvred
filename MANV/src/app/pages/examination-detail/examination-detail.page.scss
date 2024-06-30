@@ -41,3 +41,16 @@ ion-content {
   width: 64px;
   margin: 25px;
 }
+
+.examination-image-container {
+  width: 100%;
+  max-height: 32rem;
+  display: flex;
+  padding: 0rem;
+  margin-top: 1rem;
+}
+
+.examination-image{
+  border-radius: .25rem;
+  object-fit: contain;
+}

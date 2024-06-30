@@ -14,12 +14,13 @@ import { SymptomDevice } from 'src/app/shared/models/SymptomDevice';
 })
 export class HomePage implements OnInit {
   @ViewChild(IonModal, { static: true }) modal!: IonModal;
-  isSupported = false;
-  validUUID = false;
-  resultId: string = '';
-  device: string = '';
-  devices: Device[] | any[] = [];
-  barcodes: Barcode[] = [];
+  public isSupported = false;
+  public validUUID = false;
+  public resultId: string = '';
+  public device: string = '';
+  public devices: Device[] | any[] = [];
+  public barcodes: Barcode[] = [];
+  public errors!: Error[];
 
   constructor(
     private alertController: AlertController,
@@ -27,12 +28,15 @@ export class HomePage implements OnInit {
     private loadingController: LoadingController
   ) {}
 
+  // Init check if Barcode Scanner is supported for current platform
   async ngOnInit() {
     BarcodeScanner.isSupported().then((result: { supported: boolean }) => {
       this.isSupported = result.supported;
     });
   }
-  isUUID(uuid: string): boolean {
+
+  // Check if provided string is a valid UUID
+  private isUUID(uuid: string): boolean {
     if (
       !/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(
         uuid
@@ -42,25 +46,46 @@ export class HomePage implements OnInit {
     }
     return true;
   }
-  async checkUUID(e: any) {
-    if (this.isUUID(e.detail.value)) {
-      await this.loadDevices();
+
+
+  // Check if provided UUID is valid. Query Devices if UUID is valid.
+  public async checkUUID(value: string) {
+    this.devices = []
+    if (this.isUUID(value)) {
+      
+      try {
+        this.devices = await this.loadDevices();
+        console.log(this.devices)
+      } catch (error) {
+
+      }
+
       this.validUUID = true;
     }
   }
+
+  // Dismiss Modal
   cancel() {
     this.modal.dismiss(null, 'cancel');
   }
 
+  //Confirm Modal and Create a new Examination
   async confirm() {
     const loadingIndicator = await this.showLoadingIndictator(
       'Erstelle Untersuchung ...'
     );
-    await this.apiServ.createExamination(this.resultId, this.device);
-    loadingIndicator.dismiss();
-    this.modal.dismiss('confirm');
+
+    try {
+      await this.apiServ.createExamination(this.resultId, this.device);
+      loadingIndicator.dismiss();
+      this.modal.dismiss('confirm');
+
+    } catch (error) {
+      loadingIndicator.dismiss();
+    }
   }
 
+  // QR Code Scanner scan methode
   async scan(): Promise<void> {
     const granted = await this.requestPermissions();
     if (!granted) {
@@ -68,12 +93,17 @@ export class HomePage implements OnInit {
       return;
     }
     const { barcodes } = await BarcodeScanner.scan();
-    this.resultId = this.barcodes[0].rawValue;
+    this.resultId = barcodes[0].rawValue;
+    this.checkUUID(this.resultId)
   }
+
+  // Ask user for permissions to open the camera.
   async requestPermissions(): Promise<boolean> {
     const { camera } = await BarcodeScanner.requestPermissions();
     return camera === 'granted' || camera === 'limited';
   }
+
+  // If Permission is denied create a new alert.
   async presentAlert(): Promise<void> {
     const alert = await this.alertController.create({
       header: 'Permission denied',
@@ -82,18 +112,24 @@ export class HomePage implements OnInit {
     });
     await alert.present();
   }
-  async loadDevices() {
+
+  // Try to load Devices.
+  async loadDevices(): Promise<Device[]> {
     const loadingIndicator = await this.showLoadingIndictator('Lade Geräte');
-    var result: ExaminationResult = await this.apiServ.getExaminationResult(
-      this.resultId
-    );
-    this.devices =
-      result.Symptom?.Device.map((symptDevice: SymptomDevice) => {
-        return symptDevice.Device_id;
-      }) || [];
-    loadingIndicator.dismiss();
+  
+    try {
+      var result: ExaminationResult = await this.apiServ.getExaminationResult(this.resultId);
+      const devices: Device[] = result.Symptom?.Device.map((symptDevice: SymptomDevice) => { return symptDevice.Device_id; }) as Device[]
+      loadingIndicator.dismiss();
+      return devices;
+    } catch (error) {
+      loadingIndicator.dismiss();
+
+      return [];
+    }
   }
 
+  // Show the loading indicator while fetching data.
   private async showLoadingIndictator(message: string) {
     const loadingIndicator = await this.loadingController.create({
       message: message,

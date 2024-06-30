@@ -1,5 +1,6 @@
 import { Symptom } from './Symptom';
 import { Patient } from './Patient';
+import { Image } from './Image';
 
 export type ExaminationResult = {
   Bodypart?: string | null;
@@ -7,4 +8,5 @@ export type ExaminationResult = {
   Patient?: Patient | null;
   Recognized?: boolean | null;
   Symptom?: Symptom;
+  Image?: Image;
 };
