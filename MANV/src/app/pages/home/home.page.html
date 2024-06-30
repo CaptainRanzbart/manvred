@@ -35,7 +35,7 @@
             type="text"
             placeholder="Untersuchung"
             [(ngModel)]="resultId"
-            (ionChange)="checkUUID($event)"
+            (ngModelChange)="checkUUID($event)"
           ></ion-input>
         </ion-item>
         <ion-item>
@@ -44,11 +44,12 @@
             labelPlacement="stacked"
             placeholder="Gerät"
             [(ngModel)]="device"
-            [disabled]="!validUUID"
+            [disabled]="devices.length <= 0"
           >
             <ion-select-option
               *ngFor="let device of devices"
               [value]="device.id"
+              [disabled]="device.Blocked"
               >{{device.Name}}</ion-select-option
             >
           </ion-select>
@@ -60,14 +61,14 @@
             <ion-input type="text" [value]="barcode.rawValue"></ion-input>
           </ion-item>
         </ion-list>
-        <div style="text-align: center; margin-top: 10px">
-          <ion-fab-button
+        <div style="text-align: center; display: flex; flex-direction: column; justify-content: center; margin-top: 10px">
+          <ion-button
             (click)="scan()"
             [disabled]="!isSupported"
-            class="scanButton"
-          >
+            class="scanButton">
             <ion-icon name="scan"></ion-icon>
-          </ion-fab-button>
+            Untersuchung scannen
+          </ion-button>
           Scannen Sie ihren Barcode, um die Untersuchung anzulegen
         </div>
         <!-- End of Barcode Scanner Section -->

@@ -23,7 +23,7 @@ import { Room } from '../models/Room';
 export class ApiService {
   baseUrl = environment.baseApiUrl;
   restClient = <RestClient<any>>(<unknown>this.directusService.getClient());
-
+  
   constructor(private directusService: DirectusService) {}
 
   private _defaultQueryParams: object = { fields: ['*.*.*.*.*'] };

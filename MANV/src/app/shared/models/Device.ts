@@ -5,4 +5,5 @@ export type Device = {
   id: string;
   Name?: string | null;
   Room?: Room | null;
+  Blocked?: boolean;
 };

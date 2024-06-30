@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding ion-center" fullscreen>
+<ion-content class="ion-padding ion-center" style="overflow: hidden;" fullscreen>
   <ion-grid class="max-width-container" *ngIf="examination">
     <ion-row>
       <div class="detail-card">
@@ -77,6 +77,9 @@
           <div class="property">
             <strong>Symptom:</strong
             ><span>{{ examination.ExaminationResult?.Symptom?.Name }}</span>
+          </div>
+          <div class="examination-image-container">
+            <img class="examination-image" [src]="baseUrl + 'assets/' + examination.ExaminationResult?.Image?.id" alt="asd">
           </div>
         </div>
       </div>
