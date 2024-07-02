@@ -7,6 +7,7 @@ MANV RED is an interactive training application for doctors to simulate and trai
 ## Table of Contents
 
 - [Getting Started](#getting-started)
+- [File Structure](#file-structure)
 - [Running the Application](#running-the-application)
 - [Building the Project](#building-the-project)
 
@@ -15,7 +16,7 @@ MANV RED is an interactive training application for doctors to simulate and trai
 ## File Structure
 This file structure illustrates important directories of the manv(red) app.
 
-    .
+    MANV
     ├── andoird                         # Files to build the Andoird app
     ├── ios                             # Files to build the ios app
     ├── src                             # Application Environment
@@ -55,8 +56,9 @@ Additionally, the project uses the Directus SDK, which requires at least version
 
 1. **Clone the repository:**
 ```
-git clone https://github.com/yourusernameyour-repo-name.git
-cd your-repo-name
+git clone https://bitbucket.hs-ansbach.de/scm/aew24g1/frontend-app.git
+cd frontend-app
+cd manv
 ```
 2. **Install dependencies:**
 ```
