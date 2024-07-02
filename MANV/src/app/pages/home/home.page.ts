@@ -7,6 +7,14 @@ import { Device } from 'src/app/shared/models/Device';
 import { ExaminationResult } from 'src/app/shared/models/ExaminationResult';
 import { SymptomDevice } from 'src/app/shared/models/SymptomDevice';
 
+/**
+ * Page component to manage the home page, including barcode scanning, UUID validation, 
+ * device loading, and examination creation.
+ * 
+ * This component uses the Capacitor Barcode Scanner for scanning barcodes, validates 
+ * scanned UUIDs, loads devices associated with a UUID, and creates new examinations.
+ */
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -26,7 +34,7 @@ export class HomePage implements OnInit {
     private alertController: AlertController,
     private apiServ: ApiService,
     private loadingController: LoadingController
-  ) {}
+  ) { }
 
   // Init check if Barcode Scanner is supported for current platform
   async ngOnInit() {
@@ -52,7 +60,7 @@ export class HomePage implements OnInit {
   public async checkUUID(value: string) {
     this.devices = []
     if (this.isUUID(value)) {
-      
+
       try {
         this.devices = await this.loadDevices();
         console.log(this.devices)
@@ -116,7 +124,7 @@ export class HomePage implements OnInit {
   // Try to load Devices.
   async loadDevices(): Promise<Device[]> {
     const loadingIndicator = await this.showLoadingIndictator('Lade Geräte');
-  
+
     try {
       var result: ExaminationResult = await this.apiServ.getExaminationResult(this.resultId);
       const devices: Device[] = result.Symptom?.Device.map((symptDevice: SymptomDevice) => { return symptDevice.Device_id; }) as Device[]

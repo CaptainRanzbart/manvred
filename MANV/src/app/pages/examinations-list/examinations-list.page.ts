@@ -4,6 +4,13 @@ import { Examination } from 'src/app/shared/models/Examination';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { RealTimeService } from 'src/app/shared/services/realtime.service';
 
+/**
+ * Page component to display and manage a list of examinations.
+ * 
+ * This component fetches and maintains a real-time list of examinations. It uses 
+ * `ApiService` to fetch examination data and `RealTimeService` to subscribe to 
+ * real-time updates for create, update, and delete events on examinations.
+ */
 
 @Component({
   selector: 'app-examinations-list',
@@ -11,16 +18,12 @@ import { RealTimeService } from 'src/app/shared/services/realtime.service';
   styleUrls: ['./examinations-list.page.scss'],
 })
 export class ExaminationsListPage {
-
-  private _apiServ = inject(ApiService);
   private _realTime = inject(RealTimeService);
   public examinations!: Examination[];
 
-  private subscription!: Subscription;
-
   public subs: Subscription = new Subscription();
 
-  constructor() { 
+  constructor() {
   }
 
   async ngOnInit() {

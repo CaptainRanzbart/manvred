@@ -1,14 +1,16 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title class="title">Examination Detail</ion-title>
+    <ion-title class="title">Untersuchung</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding ion-center" style="overflow: hidden;" fullscreen>
   <ion-grid class="max-width-container" *ngIf="examination">
+
+    <!-- Patient Card -->
     <ion-row>
       <div class="detail-card">
-        <h5>Patient:</h5>
+        <h5>Patient</h5>
         <hr />
         <div>
           <div class="property">
@@ -16,62 +18,54 @@
             ><span>{{ examination.ExaminationResult?.Patient?.Name }}</span>
           </div>
           <div class="property">
-            <strong>Age:</strong
+            <strong>Alter:</strong
             ><span>{{ examination.ExaminationResult?.Patient?.Age }}</span>
           </div>
           <div class="property">
-            <strong>Weight:</strong
-            ><span
-              >{{ examination.ExaminationResult?.Patient?.Weight }} kg</span
-            >
+            <strong>Gewicht:</strong
+            ><span>{{ examination.ExaminationResult?.Patient?.Weight }} kg</span>
           </div>
           <div class="property">
-            <strong>Blood Type:</strong
-            ><span
-              >{{ examination.ExaminationResult?.Patient?.BloodType }}</span
-            >
+            <strong>Blutgruppe:</strong
+            ><span>{{ examination.ExaminationResult?.Patient?.BloodType }}</span>
           </div>
         </div>
       </div>
     </ion-row>
+
+    <!-- Device Card -->
     <ion-row>
       <div class="detail-card">
-        <h5>Device:</h5>
+        <h5>Gerät</h5>
         <hr />
         <div>
           <div class="property">
             <strong>Name:</strong><span>{{ examination.Device?.Name }}</span>
           </div>
           <div class="property">
-            <strong>Room:</strong
+            <strong>Raum:</strong
             ><span>{{ examination.Device?.Room?.Name }}</span>
           </div>
-        </div>
-      </div>
-    </ion-row>
-    <ion-row>
-      <div class="detail-card">
-        <h5>Duration:</h5>
-        <hr />
-        <div>
           <div class="property">
-            <strong>Start Time:</strong
+            <strong>Startzeit:</strong
             ><span>{{ examination.StartTime | date: 'medium' }}</span>
           </div>
           <div class="property">
-            <strong>Duration:</strong
+            <strong>Dauer:</strong
             ><span>{{ examination.Device?.Duration }}s</span>
           </div>
         </div>
       </div>
     </ion-row>
+
+    <!-- Examination Card -->
     <ion-row>
       <div class="detail-card">
-        <h5>Examination Result:</h5>
+        <h5>Untersuchungsergebnis</h5>
         <hr />
         <div>
           <div class="property">
-            <strong>Body Part:</strong
+            <strong>Körperteil:</strong
             ><span>{{ examination.ExaminationResult?.Bodypart }}</span>
           </div>
           <div class="property">
@@ -79,7 +73,7 @@
             ><span>{{ examination.ExaminationResult?.Symptom?.Name }}</span>
           </div>
           <div class="examination-image-container">
-            <img class="examination-image" [src]="baseUrl + 'assets/' + examination.ExaminationResult?.Image?.id" alt="asd">
+            <img class="examination-image" alt="Untersuchung" *ngIf="getImageUrl()" [src]="getImageUrl()">
           </div>
         </div>
       </div>
