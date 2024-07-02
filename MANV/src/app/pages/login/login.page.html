@@ -18,6 +18,11 @@
         <ion-button expand="block" (click)="login()">Login
           <ion-icon name="person-circle-outline" style="margin-left: 5px;"></ion-icon>
         </ion-button>
+      <ion-row>
+        <div class="error-list" *ngIf="errors.length > 0">
+          <p class="error-item" *ngFor="let error of errors">{{error.message}}</p>
+        </div>
+      </ion-row>
     </ion-grid>
 </div>
 </ion-content>

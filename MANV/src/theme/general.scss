@@ -8,3 +8,15 @@ hr {
 .max-width-container {
   max-width: 1100px;
 }
+
+.error-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  width: 100%;
+
+  .error-item {
+    margin: 0px;
+    color: var(--ion-color-danger);
+  }
+}
