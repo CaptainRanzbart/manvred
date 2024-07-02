@@ -1,7 +1,4 @@
-<a
-  [class.disabled]="remainingTime > 0"
-  [href]="'examinations/' + examination.id"
->
+<a [class.disabled]="remainingTime > 0" [routerLink]="[examination.id]">
   <div class="examination-card">
     <div class="divider">
       <div class="div-left">
